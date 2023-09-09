@@ -12,10 +12,14 @@ export class VisualizarDetalhesFilme {
   texto: HTMLParagraphElement;
   FilmeService: FilmeService;
   generos: HTMLDivElement;
+  creditos: HTMLDivElement;
+  btnFavoritos: HTMLImageElement;
+  filmesFavoritos: number[];
   idSelecionado: number;
 
   constructor() {
     this.registrarElementos();
+    this.registrarEventos();
 
     const params = new URLSearchParams(window.location.search);
     this.idSelecionado = Number.parseInt(params.get("id") as string);
@@ -27,6 +31,14 @@ export class VisualizarDetalhesFilme {
     this.FilmeService.selecionarTrailersFilmePorId(this.idSelecionado).then(
       (t) => this.substituirTrailer(t)
     );
+
+    this.FilmeService.selecionarTrailersFilmePorId(this.idSelecionado).then(
+      (t) => this.substituirTrailer(t)
+    );
+  }
+
+  registrarEventos(){
+    this.btnFavoritos.addEventListener('click', () => this.adicionarOuRemoverFavoritos());
   }
 
   registrarElementos() {
@@ -41,6 +53,13 @@ export class VisualizarDetalhesFilme {
     ) as HTMLIFrameElement;
     this.texto = document.getElementById("texto") as HTMLParagraphElement;
     this.generos = document.getElementById("generos") as HTMLDivElement;
+    this.creditos = document.getElementById("creditos") as HTMLDivElement;
+    this.btnFavoritos = document.getElementById("btnFavoritos") as HTMLImageElement;
+  }
+
+  private adicionarOuRemoverFavoritos(){
+    this.btnFavoritos.classList.remove("bi", "bi-heart", "fs-2", "text-warning");
+    this.btnFavoritos.classList.add("bi", "bi-heart-fill", "fs-2", "text-warning");
   }
 
   private substituirTrailer(trailer: TrailerFilme): void {

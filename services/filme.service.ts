@@ -1,4 +1,3 @@
-import { CreditosFilme } from "../src/models/creditos-filme";
 import { DetalhesFilme } from "../src/models/detalhes-filme";
 import { ListagemFilme } from "../src/models/listagem-filme";
 import { TrailerFilme } from "../src/models/trailer-filme";
@@ -108,31 +107,6 @@ export class FilmeService {
           "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2YTAzMzM1YjlmMTAxYjQzODNhOWQ4ZjAxNmRiNGM1ZiIsInN1YiI6IjY0YWVlNjliNjZhMGQzMDBjNjcwZjdlNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.maqe-EQttCKGgwuXNLSalnq-BseNByKVa64rRPW8EGI",
       },
     };
-  }
-
-
-  async selecionarCreditosFilmePorId(id: string): Promise<DetalhesFilme> {
-    const url = `https://api.themoviedb.org/3/network/${id}`;
-
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        return this.mapearDetalhesFilme(data);
-      } else {
-        throw new Error("Ocorreu erro ao tentar obter dados requisitados");
-      }
-    } catch (error: any) {
-      // <- Declare explicitamente o tipo da variável error
-      throw new Error(`Erro na solicitação: ${(error as Error).message}`);
-    }
   }
 
   private mapearTrailersFilme(obj: any): TrailerFilme {
